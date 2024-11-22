@@ -3,6 +3,19 @@ document.getElementById('submit-btn').addEventListener('click', function() {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
 
+
+    if (!email || !password || !confirmPassword) {
+        document.getElementById('message').textContent = 'All fields are required.';
+        document.getElementById('message').style.color = 'red';
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        document.getElementById('message').textContent = 'Passwords do not match.';
+        document.getElementById('message').style.color = 'red';
+        return;
+    }
+    
     // Send data to backend
     fetch('/signup', {
         method: 'POST',
@@ -16,4 +29,9 @@ document.getElementById('submit-btn').addEventListener('click', function() {
         document.getElementById('message').textContent = data.message || 'Sign-up successful!';
         document.getElementById('message').style.color = 'green';
     })
+    .catch(error => {
+        document.getElementById('message').textContent = 'Error: ' + error.message;
+        document.getElementById('message').style.color = 'red';
+    });
+
 });
