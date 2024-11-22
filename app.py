@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -22,8 +22,12 @@ class User(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup')
 def signup():
+    return render_template('signup.html')
+
+@app.route('/signup', methods=['POST'])
+def handle_signup():
     data = request.json
     email = data.get('email')
     password = data.get('password')
