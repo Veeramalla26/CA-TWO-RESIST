@@ -22,5 +22,17 @@ class User(db.Model):
 def index():
     return render_template('index.html')
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    confirm_password = data.get('confirm_password')
+
+    new_user = User(email=email, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({'message': 'Sign-up successful!'}), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
