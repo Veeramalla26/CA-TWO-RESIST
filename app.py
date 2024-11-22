@@ -32,6 +32,11 @@ def handle_signup():
     email = data.get('email')
     password = data.get('password')
     confirm_password = data.get('confirm_password')
+    
+    #validation to check existing users hsould not signup again"
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 400
 
     new_user = User(email=email, password=password)
     db.session.add(new_user)
