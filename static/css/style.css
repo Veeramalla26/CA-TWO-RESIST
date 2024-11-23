@@ -22,3 +22,18 @@ p {
     font-size: 1rem;
     color: #666;
 }
+/* Buttons */
+.button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
