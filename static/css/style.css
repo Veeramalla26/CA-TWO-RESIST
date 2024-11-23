@@ -76,3 +76,13 @@ form button:hover {
     margin: 50px auto;
 }
 
+
+#message {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #d9534f; /* Error Color */
+}
+
+#message.success {
+    color: #28a745; /* Success Color */
+}
