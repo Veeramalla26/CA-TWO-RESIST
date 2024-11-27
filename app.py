@@ -27,6 +27,11 @@ def index():
 def signup():
     return render_template('signup.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
 @app.route('/signup', methods=['POST'])
 def handle_signup():
     data = request.json
@@ -45,6 +50,23 @@ def handle_signup():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'You are successfully signed up!'}), 200
+
+@app.route('/login', methods=['POST'])
+def handle_login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    # Validate input
+    if not email or not password:
+        return jsonify({'message': 'All fields are required tio login '}), 400
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({'message': 'email or password are not correct'}), 401
+    if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        return jsonify({'message': 'Successfully logged in!'}), 200
+    else:
+        return jsonify({'message': 'email or password are not correct'}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
