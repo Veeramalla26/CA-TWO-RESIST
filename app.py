@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import bcrypt
 
 app = Flask(__name__)
 
@@ -38,10 +39,12 @@ def handle_signup():
     if existing_user:
         return jsonify({'message': 'User already exists'}), 400
 
-    new_user = User(email=email, password=password)
+    after_hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    new_user = User(email=email, password=after_hashed_password.decode('utf-8'))
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({'message': 'Sign-up successful!'}), 200
+    return jsonify({'message': 'You are successfully signed up!'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
