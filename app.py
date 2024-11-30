@@ -109,5 +109,21 @@ def handle_login():
     else:
         return jsonify({'message': 'Email or password are not correct'}), 401
 
+@app.route('/api/add_hotel', methods=['POST'])
+def add_hotel():
+    data = request.json
+    name = data.get('name')
+    location = data.get('location')
+    description = data.get('description')
+    link = data.get('link')
+
+    if not name or not location or not description or not link:
+        return jsonify({'message': 'All fields are required'}), 400
+
+    new_hotel = Hotel(name=name, location=location, description=description)
+    db.session.add(new_hotel)
+    db.session.commit()
+    return jsonify({'message': 'Hotel successfully added!'}), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
