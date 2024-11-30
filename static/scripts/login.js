@@ -24,12 +24,23 @@ document.getElementById('submit-btn').addEventListener('click', function () {
             } else {
                 throw new Error('Login failed'); // Throw error for unsuccessful responses
             }
-         })
+        })
         .then(data => {
             const messageEl = document.getElementById('message');
             if (data.message) {
                 messageEl.textContent = data.message;
-                messageEl.style.color = response.ok ? 'green' : 'red';
+
+                // If the response contains a redirect_url, handle the redirection
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;  // Redirect to the URL
+                } else {
+                    messageEl.style.color = 'green'; // Success message color
+                }
             }
         })
+        .catch(error => {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = 'An error occurred, please try again.';
+            messageEl.style.color = 'red';
+        });
 });

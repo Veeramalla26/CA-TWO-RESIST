@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, Admin! Use the form below to add a new hotel.</p>
+        <form id="add-hotel-form">
+            <input type="text" id="name" placeholder="Hotel Name" required>
+            <input type="text" id="location" placeholder="Hotel Location" required>
+            <textarea id="description" placeholder="Hotel Description" rows="4" required></textarea>
+            <input type="url" id="link" placeholder="Booking Link (URL)" required>
+            <button type="submit" class="button">Add Hotel</button>
+        </form>
+        <div id="message"></div>
+    </div>
+</body>
+</html>

@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import bcrypt
+import secrets
 
 app = Flask(__name__)
 
 # Configure PostgreSQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Manichandu123@localhost/hostelapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = secrets.token_hex(16)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -65,22 +67,43 @@ def handle_signup():
     db.session.commit()
     return jsonify({'message': 'You are successfully signed up!'}), 200
 
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    print(session)
+    if 'user' in session:
+        return render_template('customer_dashboard.html')
+    elif 'admin' in session:
+        return render_template('admin_dashboard.html')
+
 @app.route('/login', methods=['POST'])
 def handle_login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
+    admin_email = 'holiday@gmail.com'
+    admin_password = 'Holiday@2021'
 
-    # Validate input
     if not email or not password:
-        return jsonify({'message': 'All fields are required tio login '}), 400
+        return jsonify({'message': 'Please fill in all fields'}), 400
+    if email == admin_email and password == admin_password:
+        session['admin'] = admin_email
+        return jsonify({
+            'message': 'Successfully logged in as admin!',
+            'redirect_url': '/dashboard'
+        }), 200
+
     user = User.query.filter_by(email=email).first()
     if not user:
-        return jsonify({'message': 'email or password are not correct'}), 401
+        return jsonify({'message': 'Email or password are not correct'}), 401
+
     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-        return jsonify({'message': 'Successfully logged in!'}), 200
+        session['user']= email
+        return jsonify({
+            'message': 'Successfully logged in!',
+            'redirect_url': '/dashboard'
+        }), 200
     else:
-        return jsonify({'message': 'email or password are not correct'}), 401
+        return jsonify({'message': 'Email or password are not correct'}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
