@@ -47,6 +47,10 @@ def signup():
 def login():
     return render_template('login.html')
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user', None)
+    return jsonify({'message': 'Successfully logged out!', 'redirect_url': '/login'}), 200
 
 @app.route('/signup', methods=['POST'])
 def handle_signup():
