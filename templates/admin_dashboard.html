@@ -9,16 +9,16 @@
 <body>
     <div class="container">
         <h1>Admin Dashboard</h1>
-        <p>Welcome, Admin! Use the form below to add a new hotel.</p>
-        <form id="add-hotel-form">
-            <input type="text" id="name" placeholder="Hotel Name" required>
-            <input type="text" id="location" placeholder="Hotel Location" required>
-            <textarea id="description" placeholder="Hotel Description" rows="4" required></textarea>
-            <input type="url" id="link" placeholder="Booking Link (URL)" required>
-            <button type="submit" class="button">Add Hotel</button>
-        </form>
-        <div id="message"></div>
+        <p>Welcome, Admin! Choose an action below:</p>
+
+        <!-- Navigation buttons to different functionalities -->
+        <button onclick="window.location.href='/add_hotel'" class="button">Add Hotel</button>
+        <button id="view-hotels-btn" class="button">View Hotels</button>
+
+        <!-- Container for displaying the list of hotels -->
+        <div id="hotels-container" class="hotels-list"></div>
     </div>
+
     <script src="static/scripts/admin.js"></script>
 </body>
 </html>

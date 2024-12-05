@@ -24,7 +24,7 @@ class Hotel(db.Model):
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    bookings = db.relationship('Booking', backref='hotel', lazy=True)
+    link = db.Column(db.String(255), nullable=False)
 
 
 class Booking(db.Model):
@@ -51,6 +51,10 @@ def login():
 def logout():
     session.pop('user', None)
     return jsonify({'message': 'Successfully logged out!', 'redirect_url': '/login'}), 200
+
+@app.route('/add_hotel')
+def add_hotel():
+    return render_template('add_hotel.html')
 
 @app.route('/signup', methods=['POST'])
 def handle_signup():
@@ -110,7 +114,7 @@ def handle_login():
         return jsonify({'message': 'Email or password are not correct'}), 401
 
 @app.route('/api/add_hotel', methods=['POST'])
-def add_hotel():
+def handle_add_hotel():
     data = request.json
     name = data.get('name')
     location = data.get('location')
@@ -120,10 +124,16 @@ def add_hotel():
     if not name or not location or not description or not link:
         return jsonify({'message': 'All fields are required'}), 400
 
-    new_hotel = Hotel(name=name, location=location, description=description)
+    new_hotel = Hotel(name=name, location=location, description=description, link=link)
     db.session.add(new_hotel)
     db.session.commit()
     return jsonify({'message': 'Hotel successfully added!'}), 200
+
+@app.route('/api/get_hotels', methods=['GET'])
+def get_hotels():
+    hotels = Hotel.query.all()
+    hotels_list = [{'id': hotel.id, 'name': hotel.name, 'location': hotel.location, 'description': hotel.description, 'link': hotel.link} for hotel in hotels]
+    return jsonify({'hotels': hotels_list}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
