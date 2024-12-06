@@ -24,5 +24,25 @@
         </form>
         <button onclick="window.location.href='/dashboard'" class="button">Back to Dashboard</button>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const hotelId = window.location.pathname.split('/').pop(); // Extract hotelId from URL
+
+            try {
+                const response = await fetch(`/api/get_hotel/${hotelId}`);
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('hotel-name').value = result.hotel.name;
+                    document.getElementById('hotel-id').value = result.hotel.id;
+                } else {
+                    alert('Failed to load hotel details. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error fetching hotel details:', error);
+                alert('An error occurred while fetching hotel details. Please try again later.');
+            }
+        });
+    </script>
 </body>
 </html>
