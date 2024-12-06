@@ -129,6 +129,10 @@ def handle_add_hotel():
     db.session.commit()
     return jsonify({'message': 'Hotel successfully added!'}), 200
 
+@app.route('/view_hotels', methods=['GET'])
+def view_hotels():
+    return render_template('view_hotel.html')
+
 @app.route('/api/get_hotels', methods=['GET'])
 def get_hotels():
     hotels = Hotel.query.all()

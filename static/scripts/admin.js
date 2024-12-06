@@ -60,41 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listener for viewing hotels
     if (viewHotelsButton) {
-        viewHotelsButton.addEventListener('click', async function() {
-            try {
-                console.log("View hotels button clicked");
-
-                const response = await fetch('/api/get_hotels', {
-                    method: 'GET',
-                });
-
-                console.log("Response received:", response);
-
-                const result = await response.json();
-                console.log("Response JSON:", result);
-
-                if (response.ok) {
-                    let hotelsList = '';
-                    result.hotels.forEach(hotel => {
-                        hotelsList += `
-                            <div class="hotel-card">
-                                <h3>${hotel.name}</h3>
-                                <p>Location: ${hotel.location}</p>
-                                <p>Description: ${hotel.description}</p>
-                                <p><a href="${hotel.link}" target="_blank">Booking Link</a></p>
-                            </div>`;
-                    });
-                    hotelsContainer.innerHTML = hotelsList;
-                } else {
-                    hotelsContainer.innerHTML = '<p>Failed to fetch hotels. Please try again later.</p>';
-                    console.error('Failed to fetch hotels:', result.message);
-                }
-            } catch (error) {
-                hotelsContainer.innerHTML = '<p>An error occurred while fetching hotels. Please try again later.</p>';
-                console.error('Error fetching hotels:', error);
-            }
+        viewHotelsButton.addEventListener('click', function() {
+            window.location.href = '/view_hotels';
         });
     }
+
 });
