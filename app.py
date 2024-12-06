@@ -160,6 +160,12 @@ def update_hotel(hotel_id):
     db.session.commit()
     return jsonify({'message': 'Hotel successfully updated!'}), 200
 
+@app.route('/api/delete_hotel/<int:hotel_id>', methods=['DELETE'])
+def delete_hotel(hotel_id):
+    hotel = Hotel.query.get_or_404(hotel_id)
+    db.session.delete(hotel)
+    db.session.commit()
+    return jsonify({'message': 'Hotel successfully deleted!'}), 200
 
 
 
