@@ -13,17 +13,42 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <p>Description: ${hotel.description}</p>
                         <p><a href="${hotel.link}" target="_blank">Booking Link</a></p>
                         <button class="edit-hotel-btn button" data-id="${hotel.id}">Edit</button>
+                        <button class="delete-hotel-btn button" data-id="${hotel.id}">Delete</button>
                     </div>`;
             });
             document.getElementById('hotels-container').innerHTML = hotelsList;
 
             const editButtons = document.querySelectorAll('.edit-hotel-btn');
-
             editButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
                     const hotelId = event.target.getAttribute('data-id');
                     // Navigate to the edit page for the specific hotel
                     window.location.href = `/edit_hotel/${hotelId}`;
+                });
+            });
+
+            // Add event listeners for Delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-hotel-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const hotelId = event.target.getAttribute('data-id');
+                    try {
+                        const response = await fetch(`/api/delete_hotel/${hotelId}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (response.ok) {
+                            setTimeout(() => {
+                                alert('Hotel successfully deleted!');
+                                window.location.reload();
+                            }, 3000);
+                        } else {
+                            alert('Failed to delete hotel. Please try again later.');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting hotel:', error);
+                        alert('An error occurred while deleting the hotel. Please try again later.');
+                    }
                 });
             });
         } else {
