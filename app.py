@@ -24,7 +24,7 @@ class Hotel(db.Model):
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    link = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(1000), nullable=False) 
 
 
 class Booking(db.Model):
