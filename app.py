@@ -208,7 +208,32 @@ def get_hotel(hotel_id):
 def book_hotel(hotel_id):
     return render_template('book_hotel.html', hotel_id=hotel_id)
 
+@app.route('/my_bookings', methods=['GET'])
+def my_bookings():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    user_email = session.get('user')
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found.'}), 404
 
+    bookings = Booking.query.filter_by(user_id=user.id).all()
+    bookings_list = []
+    for booking in bookings:
+        hotel = Hotel.query.get(booking.hotel_id)
+        bookings_list.append({
+            'hotel_name': hotel.name,
+            'location': hotel.location,
+            'start_date': booking.start_date.strftime('%Y-%m-%d'),
+            'end_date': booking.end_date.strftime('%Y-%m-%d')
+        })
+
+    return jsonify(bookings_list)
+
+@app.route('/my_bookings_page')
+def my_bookings_page():
+    return render_template('my_bookings.html')
 
 
 if __name__ == '__main__':

@@ -8,14 +8,13 @@
 </head>
 <body>
     <div id="user-buttons-container" class="user-buttons-container">
-        <button class="button" id="my-bookings-btn">My Bookings</button>
+        <button class="button" id="my-bookings-btn" onclick="window.location.href='/my_bookings_page'">My Bookings</button>
         <button class="button" id="search-hotel-btn">Search Hotels</button>
         <button class="button" id="logout-btn">Logout</button>
     </div>
     <div class="container">
         <h1>Available Hotels</h1>
-        <div id="hotels-container" class="hotels-container">
-        </div>
+        <div id="hotels-container" class="hotels-container"></div>
     </div>
     <script src="/static/scripts/customer_dashboard.js"></script>
     <script src="static/scripts/logout.js"></script>
