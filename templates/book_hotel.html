@@ -43,6 +43,39 @@
                 alert('An error occurred while fetching hotel details. Please try again later.');
             }
         });
+
+        document.getElementById('booking-form').addEventListener('submit', async function(event) {
+           event.preventDefault();
+           const hotelId = document.getElementById('hotel-id').value;
+           const startDate = document.getElementById('start-date').value;
+           const endDate = document.getElementById('end-date').value;
+
+
+           try {
+               const response = await fetch(`/api/book_hotel/${hotelId}`, {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   body: JSON.stringify({
+                       start_date: startDate,
+                       end_date: endDate
+                   })
+               });
+
+
+               if (response.ok) {
+                   alert('Hotel successfully booked!');
+                   window.location.href = '/dashboard';
+               } else {
+                   alert('Failed to book hotel. Please try again later.');
+               }
+           } catch (error) {
+               console.error('Error booking hotel:', error);
+               alert('An error occurred while booking the hotel. Please try again later.');
+           }
+       });
+
     </script>
 </body>
 </html>
