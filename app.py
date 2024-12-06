@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import bcrypt
@@ -166,6 +166,48 @@ def delete_hotel(hotel_id):
     db.session.delete(hotel)
     db.session.commit()
     return jsonify({'message': 'Hotel successfully deleted!'}), 200
+
+@app.route('/api/book_hotel/<int:hotel_id>', methods=['POST'])
+def book_hotel_api(hotel_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    user_email = session.get('user')
+    data = request.get_json()
+    start_date = data.get('start_date')
+    end_date = data.get('end_date')
+    
+    user = User.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({'error': 'User not found.'}), 404
+    hotel = Hotel.query.get_or_404(hotel_id)
+    new_booking = Booking(
+        user_id=user.id,
+        hotel_id=hotel.id,
+        start_date=start_date,
+        end_date=end_date
+    )
+    db.session.add(new_booking)
+    db.session.commit()
+
+    return jsonify({'message': 'Hotel successfully booked!'}), 200
+
+@app.route('/api/get_hotel/<int:hotel_id>', methods=['GET'])
+def get_hotel(hotel_id):
+    hotel = Hotel.query.get_or_404(hotel_id)
+    hotel_data = {
+        'id': hotel.id,
+        'name': hotel.name,
+        'location': hotel.location,
+        'description': hotel.description,
+        'link': hotel.link
+    }
+    return jsonify({'hotel': hotel_data})
+
+@app.route('/book_hotel/<int:hotel_id>')
+def book_hotel(hotel_id):
+    return render_template('book_hotel.html', hotel_id=hotel_id)
+
 
 
 
