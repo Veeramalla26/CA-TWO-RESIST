@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard</title>
-    <link rel="stylesheet" href="static/css/style.css">
-    <script src="/static/scripts/logout.js" defer></script>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+    <div id="user-buttons-container" class="user-buttons-container">
+        <button class="button" id="my-bookings-btn">My Bookings</button>
+        <button class="button" id="search-hotel-btn">Search Hotels</button>
+        <button class="button" id="logout-btn">Logout</button>
+    </div>
     <div class="container">
-        <h1>Welcome to Your Dashboard</h1>
-        <p>Here you can manage your bookings and other details.</p>
-        <div id="user-buttons-container" class="user-buttons-container">
-            <button class="button" id="book-hotel-btn">Book a Hotel</button>
-            <button class="button" id="my-bookings-btn">My Bookings</button>
-            <button class="button" id="search-hotel-btn">Search Hotels</button>
-            <button class="button" id="logout-btn">Logout</button>
+        <h1>Available Hotels</h1>
+        <div id="hotels-container" class="hotels-container">
         </div>
     </div>
+    <script src="/static/scripts/customer_dashboard.js"></script>
+    <script src="static/scripts/logout.js"></script>
 </body>
 </html>
