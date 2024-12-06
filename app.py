@@ -139,5 +139,29 @@ def get_hotels():
     hotels_list = [{'id': hotel.id, 'name': hotel.name, 'location': hotel.location, 'description': hotel.description, 'link': hotel.link} for hotel in hotels]
     return jsonify({'hotels': hotels_list}), 200
 
+@app.route('/edit_hotel/<int:hotel_id>', methods=['GET'])
+def edit_hotel(hotel_id):
+    hotel = Hotel.query.get_or_404(hotel_id)
+    return render_template('edit_hotel.html', hotel=hotel)
+
+
+@app.route('/api/update_hotel/<int:hotel_id>', methods=['POST'])
+def update_hotel(hotel_id):
+    data = request.json
+    hotel = Hotel.query.get_or_404(hotel_id)
+
+    # Update hotel details
+    hotel.name = data.get('name', hotel.name)
+    hotel.location = data.get('location', hotel.location)
+    hotel.description = data.get('description', hotel.description)
+    hotel.link = data.get('link', hotel.link)
+
+    # Commit changes to the database
+    db.session.commit()
+    return jsonify({'message': 'Hotel successfully updated!'}), 200
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

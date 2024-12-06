@@ -1,0 +1,26 @@
+<!-- edit_hotel.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hotel</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Hotel</h1>
+        <form id="edit-hotel-form">
+            <input type="hidden" id="hotel-id" value="{{ hotel.id }}">
+            <input type="text" id="name" placeholder="Hotel Name" value="{{ hotel.name }}" required>
+            <input type="text" id="location" placeholder="Hotel Location" value="{{ hotel.location }}" required>
+            <textarea id="description" placeholder="Hotel Description" rows="4" required>{{ hotel.description }}</textarea>
+            <input type="url" id="link" placeholder="Booking Link (URL)" value="{{ hotel.link }}" required>
+            <button type="submit" class="button">Update Hotel</button>
+        </form>
+        <div id="message"></div>
+        <button onclick="window.location.href='/admin_dashboard'" class="button">Back to Dashboard</button>
+    </div>
+    <script src="/static/scripts/edit_delete.js"></script>
+</body>
+</html>

@@ -45,9 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("Response JSON:", result);
 
                 if (response.ok) {
-                    messageDiv.textContent = result.message;
-                    messageDiv.style.color = 'green';
-                    addHotelForm.reset();
+                    setTimeout(() => {
+                        alert(result.message);
+                        window.location.href = '/view_hotels';
+                    }, 3000);
                 } else {
                     messageDiv.textContent = result.message;
                     messageDiv.style.color = 'red';
