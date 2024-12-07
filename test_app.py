@@ -44,5 +44,16 @@ class TestApp(unittest.TestCase):
     self.assertIn(b'Hotel successfully added!', response.data)
 
 
+    def test_get_hotels(self):
+    with app.app_context():
+        hotel = Hotel(name='Hotel Moonlight', location='Florida', description='A cozy place', link='http://example.com')
+        db.session.add(hotel)
+        db.session.commit()
+
+    response = self.client.get('/api/get_hotels')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Hotel Moonlight', response.data)
+
+
 if __name__ == '__main__':
     unittest.main()
