@@ -107,3 +107,42 @@ form button:hover {
 #message.success {
     color: #4caf50; /* Success Color */
 }
+.hotel-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+    text-align: left;
+    transition: transform 0.3s ease;
+ }
+ 
+ 
+ .hotel-card:hover {
+    transform: translateY(-5px);
+ }
+ 
+ 
+ .hotel-card h3 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 1.8rem;
+ }
+ 
+ 
+ .hotel-card p {
+    color: #555;
+    margin: 10px 0;
+    font-size: 1.1rem;
+ }
+ 
+ 
+ .user-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+ }
+ 
