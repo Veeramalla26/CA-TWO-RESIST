@@ -235,6 +235,24 @@ def my_bookings():
 def my_bookings_page():
     return render_template('my_bookings.html')
 
+@app.route('/search_hotels')
+def search_hotels():
+    return render_template('search_hotels.html')
+
+@app.route('/api/search_hotels', methods=['GET'])
+def search_hotels_api():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({'message': 'Query parameter is required'}), 400
+
+    hotels = Hotel.query.filter(
+        (Hotel.name.ilike(f'%{query}%')) |
+        (Hotel.location.ilike(f'%{query}%'))
+    ).all()
+
+    hotel_list = [{'id': hotel.id, 'name': hotel.name, 'location': hotel.location, 'description': hotel.description, 'link': hotel.link} for hotel in hotels]
+
+    return jsonify({'hotels': hotel_list})
 
 if __name__ == '__main__':
     app.run(debug=True)
