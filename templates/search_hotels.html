@@ -34,6 +34,13 @@
                             </div>`;
                     });
                     document.getElementById('search-results-container').innerHTML = resultsList;
+                    const bookButtons = document.querySelectorAll('.book-hotel-btn');
+                    bookButtons.forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const hotelId = event.target.getAttribute('data-id');
+                            window.location.href = `/book_hotel/${hotelId}`;
+                        });
+                    });
                 } else {
                     document.getElementById('search-results-container').innerHTML = '<p>No results found. Please try another search.</p>';
                 }
@@ -42,6 +49,6 @@
             }
         });
     </script>
- 
+
 </body>
 </html>
