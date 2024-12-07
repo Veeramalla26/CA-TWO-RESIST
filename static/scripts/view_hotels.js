@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <h3>${hotel.name}</h3>
                         <p>Location: ${hotel.location}</p>
                         <p>Description: ${hotel.description}</p>
-                        <p><a href="${hotel.link}" target="_blank">Booking Link</a></p>
+                        <p><a href="${hotel.link}" target="_blank">Click to see Images</a></p>
                         <button class="edit-hotel-btn button" data-id="${hotel.id}">Edit</button>
                         <button class="delete-hotel-btn button" data-id="${hotel.id}">Delete</button>
                     </div>`;

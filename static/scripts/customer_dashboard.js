@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <h3>${hotel.name}</h3>
                         <p>Location: ${hotel.location}</p>
                         <p>Description: ${hotel.description}</p>
+                        <p>Click to see images: ${hotel.link}</p>
+                        <p><a href="${hotel.link}" target="_blank">Click to see Images</a></p>
                         <button class="button book-hotel-btn" data-id="${hotel.id}">Book</button>
                     </div>`;
             });
