@@ -7,7 +7,12 @@ import secrets
 app = Flask(__name__)
 
 import os
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///local.db')
+
+uri = os.getenv('DATABASE_URL', 'postgresql://postgres:password@localhost/local_db')
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = secrets.token_hex(16)
 
