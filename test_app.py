@@ -82,6 +82,19 @@ class TestApp(unittest.TestCase):
     self.assertIn(b'Hotel successfully deleted!', response.data)
 
 
+    def test_search_hotels(self):
+    with app.app_context():
+        hotel1 = Hotel(name='Hotel Alpha', location='New York', description='First hotel', link='http://example.com')
+        hotel2 = Hotel(name='Hotel Beta', location='California', description='Second hotel', link='http://example.com')
+        db.session.add(hotel1)
+        db.session.add(hotel2)
+        db.session.commit()
+
+    response = self.client.get('/api/search_hotels?query=Alpha')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Hotel Alpha', response.data)
+    self.assertNotIn(b'Hotel Beta', response.data)
+
 
 
 if __name__ == '__main__':
