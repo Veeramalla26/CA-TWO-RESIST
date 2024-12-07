@@ -1,5 +1,6 @@
 import unittest
 from app import app, db
+import time
 
 class TestApp(unittest.TestCase):
     @classmethod
@@ -16,7 +17,7 @@ class TestApp(unittest.TestCase):
         with app.app_context():
             db.drop_all()
     
-        import time
+        
 
     def setUp(self):
         self.client = TestApp.client
@@ -31,6 +32,16 @@ class TestApp(unittest.TestCase):
             db.session.query(Hotel).delete()
             db.session.query(User).delete()
             db.session.commit()
+            
+    def test_add_hotel(self):
+    response = self.client.post('/api/add_hotel', json={
+        'name': 'Hotel Sunshine',
+        'location': 'California',
+        'description': 'A sunny place',
+        'link': 'http://example.com'
+    })
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Hotel successfully added!', response.data)
 
 
 if __name__ == '__main__':
