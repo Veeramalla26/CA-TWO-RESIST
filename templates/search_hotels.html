@@ -16,5 +16,32 @@
         <div id="search-results-container" class="hotels-container"></div>
         <button onclick="window.location.href='/dashboard'" class="button">Back to Dashboard</button>
     </div>
+    <script>
+        document.getElementById('search-button').addEventListener('click', async function() {
+            const query = document.getElementById('search-query').value;
+            try {
+                const response = await fetch(`/api/search_hotels?query=${query}`);
+                const result = await response.json();
+                if (response.ok) {
+                    let resultsList = '';
+                    result.hotels.forEach(hotel => {
+                        resultsList += `
+                            <div class="hotel-card">
+                                <h3>${hotel.name}</h3>
+                                <p>Location: ${hotel.location}</p>
+                                <p>Description: ${hotel.description}</p>
+                                <button class="button book-hotel-btn" data-id="${hotel.id}">Book</button>
+                            </div>`;
+                    });
+                    document.getElementById('search-results-container').innerHTML = resultsList;
+                } else {
+                    document.getElementById('search-results-container').innerHTML = '<p>No results found. Please try another search.</p>';
+                }
+            } catch (error) {
+                document.getElementById('search-results-container').innerHTML = '<p>An error occurred while searching. Please try again later.</p>';
+            }
+        });
+    </script>
+ 
 </body>
 </html>
