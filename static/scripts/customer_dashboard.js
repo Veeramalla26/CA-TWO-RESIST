@@ -31,3 +31,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('hotels-container').innerHTML = '<p>An error occurred while fetching hotels. Please try again later.</p>';
     }
 });
+
+document.getElementById('search-hotel-btn').addEventListener('click', () => {
+    window.location.href = '/search_hotels';
+});
