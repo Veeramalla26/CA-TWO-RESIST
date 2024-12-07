@@ -54,6 +54,35 @@ class TestApp(unittest.TestCase):
     self.assertEqual(response.status_code, 200)
     self.assertIn(b'Hotel Moonlight', response.data)
 
+    def test_update_hotel(self):
+    with app.app_context():
+        hotel = Hotel(name='Hotel Update', location='Texas', description='To be updated', link='http://example.com')
+        db.session.add(hotel)
+        db.session.commit()
+        hotel_id = hotel.id
+
+    response = self.client.post(f'/api/update_hotel/{hotel_id}', json={
+        'name': 'Hotel Updated',
+        'location': 'Texas',
+        'description': 'Updated description',
+        'link': 'http://updated.com'
+    })
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Hotel successfully updated!', response.data)
+
+    def test_delete_hotel(self):
+    with app.app_context():
+        hotel = Hotel(name='Hotel Delete', location='Nevada', description='To be deleted', link='http://example.com')
+        db.session.add(hotel)
+        db.session.commit()
+        hotel_id = hotel.id
+
+    response = self.client.delete(f'/api/delete_hotel/{hotel_id}')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Hotel successfully deleted!', response.data)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
